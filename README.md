@@ -1,10 +1,10 @@
- # 项目名称
+ # 微型博客
         [![GitHub license](https://img.shields.io/github/license/your-org/your-repo)](https://github.com/your-org/your-repo) <!-- 可选的许可证徽章 -->
-        > 一句简短的项目描述，说明项目是做什么的。
+        > 简单的博客。
         ## 核心特性
-        *   特性 1：...
-        *   特性 2：...
-        *   特性 3：...
+        *   特性 1：发表文章
+        *   特性 2：文章搜索
+        *   特性 3：标签搜索
         ##  快速开始
 
         ### 先决条件
