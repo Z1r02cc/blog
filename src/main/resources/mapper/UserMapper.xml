@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.blog.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.zero.blog.entity.User">
+        <id property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userPassword" column="user_password" jdbcType="VARCHAR"/>
+        <result property="userRegisterTime" column="user_register_time" jdbcType="TIMESTAMP"/>
+        <result property="userEmail" column="user_email" jdbcType="VARCHAR"/>
+        <result property="userFreezing" column="user_freezing" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,user_name,user_password,
+        user_register_time,user_email,user_freezing
+    </sql>
+</mapper>

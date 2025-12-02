@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.blog.mapper.ArticleMapper">
+
+    <resultMap id="BaseResultMap" type="com.zero.blog.entity.Article">
+        <id property="articleId" column="article_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+        <result property="articleCreateTime" column="article_create_time" jdbcType="TIMESTAMP"/>
+        <result property="articleContext" column="article_context" jdbcType="VARCHAR"/>
+        <result property="articlePraiseNum" column="article_praise_num" jdbcType="INTEGER"/>
+        <result property="articleBrowseTime" column="article_browse_time" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        article_id,user_id,article_title,
+        article_create_time,article_context,article_praise_num,
+        article_browse_time,art.article_cover_url
+    </sql>
+
+    <sql id="articleVoInfoSql">
+        SELECT art.article_id,
+               art.article_context,
+               u.user_id,
+               u.user_name,
+               art.article_title,
+               art.article_create_time,
+               art.article_praise_num,
+               art.article_browse_time,
+               art.article_cover_url
+        FROM article art
+                 LEFT JOIN user u on u.user_id = art.user_id
+    </sql>
+
+    <select id="articleList" resultType="com.zero.blog.vo.ArticleVo">
+        SELECT
+        art.article_id,
+        art.article_context,
+        u.user_id,
+        u.user_name,
+        art.article_title,
+        art.article_create_time,
+        art.article_praise_num,
+        art.article_browse_time,
+        art.article_cover_url
+        FROM
+        article art
+        LEFT JOIN user u on u.user_id = art.user_id
+        <where>
+            <if test="articleTitle != null and articleTitle != ''">
+                and art.article_title like concat ('%',#{articleTitle},'%')
+            </if>
+        </where>
+        ORDER BY art.article_create_time desc
+    </select>
+
+
+    <select id="userArticleList" resultType="com.zero.blog.vo.ArticleVo">
+        <include refid="articleVoInfoSql"></include>
+        <where>
+            <if test="articleTitle != null and articleTitle != ''">
+                and art.article_title like concat ('%',#{articleTitle},'%')
+            </if>
+            <if test="userId != null and userId != ''">
+                and art.user_id = #{userId}
+            </if>
+        </where>
+        ORDER BY art.article_create_time desc
+    </select>
+
+    <select id="hotArticleList" resultType="com.zero.blog.entity.Article">
+        SELECT * FROM `article`
+        ORDER BY (article_browse_time-article_praise_num) DESC
+        LIMIT #{num}
+    </select>
+
+    <select id="getArticle" resultType="com.zero.blog.vo.ArticleVo">
+        SELECT
+        art.article_id,
+        art.article_context,
+        u.user_id,
+        u.user_name,
+        art.article_title,
+        art.article_create_time,
+        art.article_praise_num,
+        art.article_browse_time,
+        art.article_cover_url
+        FROM
+        article art
+        LEFT JOIN user u on u.user_id = art.user_id
+        <where>
+            <if test="articleId != null and articleId != ''">
+                and art.article_id = #{articleId}
+            </if>
+        </where>
+    </select>
+
+    <select id="tagArticleList" resultType="com.zero.blog.vo.ArticleVo">
+        SELECT
+        art.article_id,
+        art.article_context,
+        art.article_title,
+        art.article_create_time,
+        art.article_praise_num,
+        art.article_browse_time,
+        art.article_cover_url
+        FROM
+        article_to_tag atl
+        LEFT JOIN article art ON atl.article_id = art.article_id
+
+        <where>
+            not ISNULL(art.article_title)
+            <if test="articleTagId != null and articleTagId != '' ">
+                and atl.article_tag_id = #{articleTagId}
+            </if>
+        </where>
+
+    </select>
+</mapper>

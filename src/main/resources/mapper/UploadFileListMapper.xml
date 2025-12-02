@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.blog.mapper.UploadFileListMapper">
+
+    <resultMap id="BaseResultMap" type="com.zero.blog.entity.UploadFileList">
+        <id property="uploadFileListId" column="upload_file_list_id" jdbcType="VARCHAR"/>
+        <result property="fileSize" column="file_size" jdbcType="DOUBLE"/>
+        <result property="fileUrl" column="file_url" jdbcType="VARCHAR"/>
+        <result property="uploadFileTime" column="upload_file_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        upload_file_list_id,file_size,file_url,
+        upload_file_time
+    </sql>
+</mapper>

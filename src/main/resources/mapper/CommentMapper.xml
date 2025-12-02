@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.blog.mapper.CommentMapper">
+
+    <resultMap id="BaseResultMap" type="com.zero.blog.entity.Comment">
+        <id property="commentId" column="comment_id" jdbcType="VARCHAR"/>
+        <result property="articleId" column="article_id" jdbcType="VARCHAR"/>
+        <result property="commentTime" column="comment_time" jdbcType="TIMESTAMP"/>
+        <result property="commentUser" column="comment_user" jdbcType="VARCHAR"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        comment_id,article_id,comment_time,
+        comment_user,comment_content
+    </sql>
+
+    <select id="getArticleCommentList" resultType="com.zero.blog.vo.CommentVo">
+        SELECT
+        com.*,
+        u.user_name
+        FROM
+        `comment` com
+        LEFT JOIN `user` u ON com.comment_user = u.user_id
+
+        <where>
+            <if test="articleId != null and articleId != '' ">
+                com.article_id = #{articleId}
+            </if>
+        </where>
+    </select>
+</mapper>

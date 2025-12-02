@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.blog.mapper.LeaveMessageMapper">
+
+    <resultMap id="BaseResultMap" type="com.zero.blog.entity.LeaveMessage">
+        <id property="leaveMessageId" column="leave_message_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="leaveMessageText" column="leave_message_text" jdbcType="VARCHAR"/>
+        <result property="leaveMessageTime" column="leave_message_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        leave_message_id,user_id,leave_message_text,
+        leave_message_time
+    </sql>
+
+    <select id="getLeaveMessageList" resultType="com.zero.blog.vo.LeaveMessageVo">
+        SELECT
+            lev.*,
+            u.user_name
+        FROM
+            `leave_message` lev
+                LEFT JOIN `user` u ON lev.user_id = u.user_id
+        order by lev.leave_message_time desc
+    </select>
+</mapper>
